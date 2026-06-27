@@ -1,0 +1,32 @@
+{% extends 'browser/layout.html' %}
+{% load static %}
+
+{% block title %}Админ{% endblock %}
+
+{% block content %}
+    <h1>Админ панелька</h1>
+    <form id="startvote-btn" method="post">
+        {% csrf_token %}
+        <button type="submit">Запустить голосование</button>
+    </form>
+    {% for poll in polls %}
+    
+    <h3>Опрос #{{ poll.id }}</h3>
+    <ul class="song-info">
+        {% for song in poll.songs.all %}
+            <li class="song">
+                <p class="title">{{ song.title }}</p>
+                <p class="author">{{ song.author }}</p>
+                <p class="album">{{ song.album }}</p>
+                <p class="requester">{{ song.requester }}</p>
+            </li>
+        {% empty %}
+            <li>В этом опросе нет песен</li>
+        {% endfor %}
+    </ul>
+    {% empty %}
+        <p>Нет опросов</p>
+    {% endfor %}
+    <script src="{% static 'dashboard/js/panel.js' %}"></script>
+    
+{% endblock %}

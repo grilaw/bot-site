@@ -1,0 +1,46 @@
+/* Стили для поля поиска */
+.search-input {
+    border: 1px solid #ccc;
+    padding: 8px;
+    transition: all 0.5s ease;
+}
+
+/* Стиль ошибки для поля ввода */
+.search-form input.empty-textbox {
+    border: 2px solid red;
+    background-color: #ffeeee;
+    transform: scale(1.02);
+    transform-origin: center;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+
+
+.song-info li {
+    height: 100px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    background-color: #222222;
+    grid-template-columns: repeat(4, 1fr);
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+}
+
+.song-info li .artwork {
+    width: 100%;
+    height: 100%;
+    display: flex; /* или grid */
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.song-info li .artwork .cover {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    display: block;
+}

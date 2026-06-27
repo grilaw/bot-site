@@ -1,0 +1,82 @@
+body {
+    background: rgb(41, 41, 41);
+    display: grid;
+    grid-template-columns: 20% 80%;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+aside {
+    position: sticky;
+    top: 0;
+    background-color: rgb(36, 36, 36);
+    padding: 40px;
+    height: 100vh;
+    color: white;
+    border-right: 5px solid gray;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Убираем float у всех элементов aside */
+aside img {
+    width: 80px;
+    float: left;
+}
+
+aside .furry {
+    font-size: 40px;
+    margin-left: 10px;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+}
+
+aside h3 {
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+aside ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+aside ul a {
+    text-decoration: none;
+    color: aquamarine;
+    display: block;
+    margin-top: 10px;
+    transition: all .2s ease-in-out;
+}
+
+aside ul li:hover, aside ul a:hover {
+    color: azure;
+    padding-left: 5px;
+}
+
+/* ГЛАВНОЕ ИСПРАВЛЕНИЕ - main */
+main {
+    width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+main .features {
+    /* УБИРАЕМ float: left */
+    color: #fff ; 
+    margin-top: 100px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+
+.alert-info {
+    margin: 10px;
+}
+

@@ -1,0 +1,22 @@
+{% extends 'browser/layout.html' %}
+{% load static %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Пользователь: {{ request.user.username }}</h1>
+        <form id="avatarForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" id="avatarInput" name="avatar" accept="image/*">
+            <button type="submit">Загрузить аватар</button>
+        </form>
+
+        <div id="avatarPreview">
+            <img src="{{ request.user.profile.avatar.url }}" class="currentAvatar" alt="Текущий аватар" id="currentAvatar" style="object-fit:cover" width="200", height="200">
+        </div>
+        <div id="message"></div>
+        <a href="{% url 'account_logout' %}" class="btn btn-danger">Выйти</a>
+    </div>
+    <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+{% endblock %}

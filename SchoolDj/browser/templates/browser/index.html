@@ -1,0 +1,34 @@
+{% extends 'browser/layout.html' %}
+
+{% block title %}Индекс{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Главное</h1>
+        <form class="search-form" method="GET">
+            <input type="text" name="q" placeholder="Поиск трека" class="search-input">
+            <button type="submit">Поиск</button>
+        </form>
+        {% if active_poll %}
+        <br>
+        <h2>Голосование</h2>
+        <ul class="song-info">
+            {% for song in active_poll.songs.all %}
+            <li class="song">
+                <div class="artwork">
+                    <img class="cover" src="{{ song.cover }}">
+                </div>
+                <span class="title">{{ song.title }}</span>
+                <span class="author">{{ song.author }}</span>
+                <span class="album">{{ song.album }}</span>
+            </li>
+            {% empty %}
+                <li>В этом опросе нет песен</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <script src="/static/browser/js/index.js"></script>
+    
+{% endblock %}

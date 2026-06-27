@@ -1,0 +1,59 @@
+{% extends 'browser/layout.html' %}
+{% load static %}
+
+{% block title %}Результаты: {{ query }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Результаты по запросу {{ query }}</h1>
+        {% if tracks %}
+            <ul class="search-results">
+                {% for track in tracks %}
+
+                    <li>
+                        <div class="explicit">
+                            {% if track.explicit %}
+                                <i class="fa-solid fa-circle-exclamation" style="color: rgb(0, 0, 0);"></i>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="track-details">
+                            <h4 class="title">{{ track.title }}</h4>
+                            <h6 class="duration format-time">{{ track.duration }}</h6>
+                            <span class="author">{{ track.author }} - {{ track.album }}</span>
+                        </div>
+                        <span class="cover">
+                            <img src="{{ track.artwork }}" alt="{{ track.album }}" width="100px" height="100px">
+
+                            <div class="add-btn">
+                                {% if track.explicit %}
+                                    <i class="fa-solid fa-square-plus banned" style="color: rgb(235, 81, 81);"></i>
+                                    <p class="banned-desc">Эта песня содержит ненормативную лексику</p>
+                                {% elif track.duration > max_duration %}
+                                    <i class="fa-solid fa-square-plus banned" style="color: rgb(235, 81, 81);"></i>
+                                    <p class="banned-desc">Эта песня слишком длинная</p>
+                                {% else %}
+                                        <label class="add-track-label"><form method="post" action="{% url 'add' track.id %}" hidden>
+                                            {% csrf_token %}
+                                            <button type="submit">
+                                                
+                                            </button>
+                                        </form><i class="fa-solid fa-square-plus" style="color:aquamarine;"></i></label>
+                                        
+                                        <!-- <label class="add-track-label"><button hidden class="add-track-btn" data-track-id="{{ track.id }}"></button><i class="fa-solid fa-square-plus" style="color:aquamarine;"></i></label> -->
+                                {% endif %}
+                            </div>
+                            
+                        </span>
+                    </li>
+
+                {% endfor %}
+            </ul>
+        {% else %}
+
+            <h3>Увы, треков не нашлось</h3>
+
+        {% endif %}
+        
+    </div>
+{% endblock %}

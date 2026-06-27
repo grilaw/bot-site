@@ -1,0 +1,38 @@
+{% extends 'browser/layout.html' %}
+
+{% block title %}Очередь песен{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Очередь песен:</h1>
+        <ul>
+        {% if songs %}
+        
+            {% for el in songs %}
+            <li>
+                <a href="{% url 'song-detail' el.id %}" class="track-card colored-back">
+                    <div class="content">
+                        <div class="top">
+                            <p class="title adaptive-text">{{ el.title }}</p>
+                            <p class="album adaptive-text">{{ el.album }}</p>
+                        </div>
+                        <div class="bottom">
+                            <p class="artist adaptive-text">{{ el.author }}</p>
+                            <p class="duration format-time adaptive-text">{{ el.duration }}</p>
+                        </div>
+                    </div>
+                    <div class="cover">
+                        <img src="{{ el.cover }}" alt="{{ el.album }}">
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+
+        {% else %}
+
+            <p>Пока песен нету, будь первым</p>
+
+        {% endif %}
+        </ul>
+    </div>
+{% endblock %}

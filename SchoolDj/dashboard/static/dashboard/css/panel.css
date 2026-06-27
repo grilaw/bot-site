@@ -1,0 +1,23 @@
+h1 {
+    color: white;
+    text-align: center;
+    margin: 50px;
+}
+
+
+
+.song-info li {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: grid;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+.song {
+    color: white;
+}
+

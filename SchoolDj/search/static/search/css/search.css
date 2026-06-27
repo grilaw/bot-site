@@ -1,0 +1,152 @@
+/* Исправленный CSS для карточки трека */
+
+.search-results li {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative; /* Важно для позиционирования */
+    overflow: hidden; /* Обрезает всё, что выходит за пределы */
+    min-height: 120px; /* Минимальная высота */
+}
+
+/* Обложка альбома - ИСПРАВЛЕНО */
+.cover {
+    position: relative;
+    display: flex;
+    flex-shrink: 0; /* Чтобы обложка не сжималась */
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.cover img {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block; /* Убирает лишние отступы */
+}
+
+/* Кнопка добавления поверх обложки */
+.cover .add-btn {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+    z-index: 2;
+
+    &:hover {
+        border-radius: 10px;
+        transform: scale(1.05);
+    }
+}
+
+.cover .add-btn .banned-desc {
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 15px;
+    color: rgb(235, 81, 81);
+    opacity: 0;
+    display: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.cover .add-btn:has(.banned):hover {
+    display: inline;
+    width: max-content;
+}
+
+.cover .add-btn:hover .banned-desc {
+    display: inline;
+    opacity: 100;
+}
+
+.cover i {
+    margin: 5px;
+    font-size: 16px;
+    text-align: right;
+}
+
+/* Explicit иконка */
+.explicit {
+    min-width: 30px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Детали трека */
+.track-details {
+    flex: 1;
+    min-width: 0; /* Важно для обрезки длинного текста */
+    overflow: hidden;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Обрезает длинный текст с ... */
+}
+
+.duration {
+    font-size: 0.9rem;
+    color: #63e6be;
+    margin: 0 0 5px 0;
+    font-weight: 500;
+}
+
+.author {
+    font-size: 0.85rem;
+    color: #ccc;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .search-results li {
+        flex-wrap: wrap;
+        min-height: auto;
+    }
+    
+    .cover {
+        order: 1;
+    }
+    
+    .track-details {
+        order: 2;
+        flex: auto;
+        width: calc(100% - 100px);
+    }
+    
+    .explicit {
+        order: 3;
+    }
+    
+    .cover img {
+        width: 70px;
+        height: 70px;
+    }
+}

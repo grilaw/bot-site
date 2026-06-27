@@ -1,0 +1,20 @@
+{% extends 'browser/layout.html' %}
+
+{% block title %}{{ song.title }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ song.title }}</h1>
+        <p>{{ song.duration }}</p>
+        <p>{{ song.author }} - {{ song.album }}</p>
+        {% if user.is_staff %}
+            <p>Заказал: {{ song.requester }}</p>
+        {% endif %}
+
+        {% if user.profile.uuid == song.requester or user.is_staff %}
+                <a href="{% url 'song-delete' song.id %}" class="btn btn-danger">
+                    Удалить песню
+                </a>
+        {% endif %}
+    </div>
+{% endblock %}

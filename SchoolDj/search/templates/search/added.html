@@ -1,0 +1,11 @@
+{% extends 'browser/layout.html' %}
+
+{% block title %}{{ message }}{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>{{ message }}</h1>
+        <a href="{% url 'songqueue' %}"class="btn btn-info">Перейти к очереди</a> <!-- говорят что кнопка это с boorstrap -->
+        <a href="/" class="btn btn-info">На главную</a> <!-- говорят что кнопка это с boorstrap -->
+    </div>
+{% endblock %}
