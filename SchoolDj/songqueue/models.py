@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class ReqSongs(models.Model):
-    title = models.CharField('Название')
-    author = models.CharField('Автор')
-    album = models.CharField('Альбом')
-    duration = models.IntegerField('Длительность сек')
+    title = models.CharField('Название', max_length=200, default='Неизвестно')
+    author = models.CharField('Автор', max_length=200, default='Неизвестно')
+    album = models.CharField('Альбом', max_length=200, default='Неизвестно')
+    duration = models.IntegerField('Длительность сек', default=0)
     cover = models.ImageField('Обложка альбома', default='browser/img/logo.jpg')
-    requester = models.CharField('Заказал', default='Неизвестный')
+    requester = models.CharField('Заказал', default='Неизвестный', max_length=200)
 
     def __str__(self):
         return self.title
@@ -32,8 +32,11 @@ class SongPoll(models.Model):
         blank=True
     )
 
-    users = models.ManyToManyField(
-        User,
-        related_name='votes',
-        blank=True
-    )
+
+class Vote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    song = models.ForeignKey(ReqSongs, on_delete=models.CASCADE)
+    poll = models.ForeignKey(SongPoll, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('user', 'poll')

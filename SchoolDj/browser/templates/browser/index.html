@@ -14,7 +14,7 @@
         <h2>Голосование</h2>
         <ul class="song-info">
             {% for song in active_poll.songs.all %}
-            <li class="song">
+            <li class="song" data-song-id="{{ song.id }}">
                 <div class="artwork">
                     <img class="cover" src="{{ song.cover }}">
                 </div>
