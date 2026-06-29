@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class ReqSongs(models.Model):
     title = models.CharField('Название', max_length=200, default='Неизвестно')
+    trackid = models.IntegerField('Айди трека', default=0)
     author = models.CharField('Автор', max_length=200, default='Неизвестно')
     album = models.CharField('Альбом', max_length=200, default='Неизвестно')
     duration = models.IntegerField('Длительность сек', default=0)
@@ -25,6 +26,7 @@ class ReqSongs(models.Model):
 class SongPoll(models.Model):
 
     active = models.BooleanField('Активный', default=True)
+    winner = models.ForeignKey(ReqSongs, on_delete=models.CASCADE, null=True, blank=True)
     
     songs = models.ManyToManyField(
         ReqSongs,

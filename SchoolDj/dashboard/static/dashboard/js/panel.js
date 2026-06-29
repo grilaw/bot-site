@@ -10,5 +10,18 @@ document.getElementById('startvote-btn').addEventListener('submit', async functi
     const data = await response.json(); // Парсим JSON ответ
     
     console.log(data);
-    location.reload(); 
+})
+
+document.getElementById('finishvote-btn').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const response = await fetch('/api/finishvote', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        });
+
+    if (response.ok) {
+        console.log('Успешно закрыто')
+    } 
 })

@@ -6,12 +6,24 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from functools import wraps
+from django.http import HttpResponseForbidden
 
 from search.apps import SearchConfig
-from songqueue.models import ReqSongs
+from songqueue.models import ReqSongs, SongPoll
+
+def not_on_vote(view_func):
+    """Декоратор без параметров"""
+    @wraps(view_func)
+    def _wrapped_view(request, *args, **kwargs):
+        if SongPoll.objects.filter(active=True).exists():
+            return HttpResponseForbidden("Запрещен доступ, активно голосвание")
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
 
 # Create your views here.
 @login_required
+@not_on_vote
 def search(request, query):
 
     if not query or query.strip() == '':
@@ -39,9 +51,13 @@ def search(request, query):
     return render(request, 'search/search.html', {'query': query, 'tracks': tracks, 'style': 'search/css/search.css', 'max_duration': settings.MAX_DURATION})
 
 @require_http_methods(["POST"])
+@not_on_vote
 def add(request, trackid):
 
     if not trackid:
+        return redirect('/')
+    
+    if not SongPoll.objects.filter(active=True).exists():
         return redirect('/')
     
     client = SearchConfig.yandex_client
@@ -55,6 +71,7 @@ def add(request, trackid):
     cover = f"https://{cover_uri.replace('%%', '200x200')}"
     
     data = {
+        'trackid': trackid,
         'title': track_info.title,
         'author': ', '.join(artist.name for artist in track_info.artists),
         'album': track_info.albums[0].title,

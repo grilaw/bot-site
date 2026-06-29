@@ -29,14 +29,11 @@ searchForm.addEventListener('submit', function(event) {
 });
 
 async function pollApply(data) {
-    if (data === lastPollData) return;
-    lastPollData = data;
+    const votesString = JSON.stringify(data.votes || data);
+    if (votesString === lastPollData) return;
+    lastPollData = votesString;
 
-    console.log('pollApply received:', data); // Проверяем что пришло
-
-
-    // data = { status: 201, votes: { "1": 5, "2": 3, "3": 7 } }
-    let votes = data.votes; // Получаем объект с голосами
+    let votes = data.votes;
 
     const votesObj = {};
     if (Array.isArray(votes)) {
@@ -47,29 +44,23 @@ async function pollApply(data) {
         Object.assign(votesObj, votes);
     }
     votes = votesObj;
-    console.log('Converted array to object:', votes);
     
-    // Суммируем голоса
     const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
-    console.log('totalVotes:', totalVotes);
     
     if (totalVotes === 0) return;
     
     // Получаем все элементы .song
     const songElements = document.querySelectorAll('.song');
-    console.log('songElements found:', songElements.length);
     
     // Создаем массив промисов для анимаций
     const animations = Array.from(songElements).map(async (element) => {
         const songId = element.dataset.songId;
         const songVotes = votes[songId] || 0;
         const percent = (songVotes / totalVotes) * 100;
-        console.log(`Song ${songId}: ${songVotes} votes, ${percent}%`);
         await animateFill(element, percent);
     });
 
     await Promise.all(animations);
-    console.log('All animations completed');
 }
 
 async function animateFill(element, targetPercent, duration = 1000) {
@@ -84,22 +75,14 @@ async function animateFill(element, targetPercent, duration = 1000) {
             const logProgress = Math.log(1 + progress * 99) / maxLog;
             const currentPercent = targetPercent * logProgress;
             
-            // Принудительно устанавливаем фон с !important через style
-            const bg = `linear-gradient(to right, #017eac ${currentPercent}%, #2b2b2b ${currentPercent}%)`;
-            element.style.setProperty('background', bg, 'important');
-            // ИЛИ:
-            // element.style.background = bg;
-            
-            console.log(`Progress: ${Math.round(currentPercent)}%`); // Для отладки
+            // Меняем ширину псевдоэлемента
+            element.style.setProperty('--fill-width', currentPercent + '%');
+            element.style.setProperty('--target-width', targetPercent + '%');
             
             if (progress < 1) {
                 requestAnimationFrame(update);
             } else {
-                // Фиксируем финальное значение
-                element.style.setProperty('background', 
-                    `linear-gradient(to right, #017eac ${targetPercent}%, #2b2b2b ${targetPercent}%)`, 
-                    'important'
-                );
+                element.style.setProperty('--fill-width', targetPercent + '%');
                 resolve();
             }
         }
@@ -123,12 +106,12 @@ document.querySelectorAll('.song').forEach(el => {
             });
             
             const data = await response.json();
-            console.log('Vote response:', data); // Проверяем ответ
+            console.log('Vote response:', data);
             
-            if (data.status === 201) { // У вас status 201, а не 200!
+            if (response.ok) {
                 await pollApply(data);
             } else if (data.status === 409) {
-                alert(data.message); // Пользователь уже голосовал
+                alert(data.message);
             }
         } catch (error) {
             console.error('Ошибка', error);
@@ -140,9 +123,8 @@ document.querySelectorAll('.song').forEach(el => {
 async function voteUpdate() {
     try {
         const response = await fetch('/api/getvotes');
-        const data = await response.json();
-        const votesString = JSON.stringify(data.votes || data);
-        if (data.status === 200) {
+        if (response.ok) {
+            const data = await response.json();
             await pollApply(data)
         }
         

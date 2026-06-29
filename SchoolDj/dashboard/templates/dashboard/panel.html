@@ -7,10 +7,13 @@
     <h1>Админ панелька</h1>
     <form id="startvote-btn" method="post">
         {% csrf_token %}
-        <button type="submit">Запустить голосование</button>
+        <button type="submit" class="btn btn-info">Запустить голосование</button>
+    </form>
+    <form id="finishvote-btn" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Остановить голосование</button>
     </form>
     {% for poll in polls %}
-    
     <h3>Опрос #{{ poll.id }}</h3>
     <ul class="song-info">
         {% for song in poll.songs.all %}

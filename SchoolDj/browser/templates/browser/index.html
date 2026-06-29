@@ -9,12 +9,12 @@
             <input type="text" name="q" placeholder="Поиск трека" class="search-input">
             <button type="submit">Поиск</button>
         </form>
-        {% if active_poll %}
+        {% if songs %}
         <br>
         <h2>Голосование</h2>
         <ul class="song-info">
-            {% for song in active_poll.songs.all %}
-            <li class="song" data-song-id="{{ song.id }}">
+            {% for song in songs %}
+            <li class="{{ song.song_class }}" data-song-id="{{ song.id }}">
                 <div class="artwork">
                     <img class="cover" src="{{ song.cover }}">
                 </div>
@@ -26,6 +26,17 @@
                 <li>В этом опросе нет песен</li>
             {% endfor %}
         </ul>
+        {% elif last_winner %}
+        <p id="last-winner-title">Последний трек</p>
+        <div id="last-winner-container" class="btn btn-warning">
+            <div id="last-winner-artwork-container">
+                <img src="{{ last_winner.cover }}" alt="{{ last_winner.album }}">
+            </div>
+            <div id="last-winner-info">
+                <p id="last-winner-name">{{ last_winner.title }}</p>
+                <p id="last-winner-author">{{ last_winner.author }}</p>
+            </div>
+        </div>
         {% endif %}
     </div>
 
