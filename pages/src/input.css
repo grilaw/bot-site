@@ -1,7 +1,47 @@
 @import "tailwindcss";
+@source "../templates";
 
 @theme {
-  --color-primary: #2D3F54;
-  --color-secondary: #52647A;
+  --color-primary: #2d3f54;
+  --color-secondary: #52647a;
+  --color-choice: #415062;
   --font-sans: "Inter", sans-serif;
+  --font-header: "Dela Gothic One", sans-serif;
+}
+
+.navi-con {
+  @apply my-1 h-8 w-full;
+}
+
+.nav-item {
+  @apply flex h-full w-full items-center rounded-lg px-3 py-2 text-sm font-thin text-white hover:bg-black/30;
+}
+
+.nav-item::before {
+  @apply absolute left-0 w-1 rounded-r bg-blue-200;
+  content: '';
+  height: 0px;
+  opacity: 0;
+  transition: ease-out;
+  transition-duration: 150ms;
+  transform: translateX('-8px')
+}
+
+.active > .nav-item {
+  @apply bg-blue-300 text-black;
+}
+
+.active > .nav-item::before {
+  transform: translateX(0px);
+  opacity: 1;
+  height: 16px;
+}
+
+.active > .nav-item:hover::before {
+  
+  height: 26px
+}
+
+.nav-item > i {
+  @apply mr-2;
 }
