@@ -1,0 +1,23 @@
+/* Добавь в CSS */
+.search-results {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.7s cubic-bezier(0.42, 0, 0.28, 0.97) 0s;
+
+}
+
+.search-results.active {
+    max-height: 500px;
+}
+
+#poll .poll-item .progress-bar {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#poll .poll-item.voted .progress-bar {
+    opacity: 1;
+    max-height: 30px;
+}
