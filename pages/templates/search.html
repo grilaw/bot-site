@@ -7,25 +7,30 @@
   <link rel="stylesheet" href="../src/css/search.css">
 </head>
 <body class="bg-primary">
-<main class="min-h-screen max-w-4xl px-4 w-full py-4 overflow-hidden">
-  <!-- ФОН -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none -z-50">
-    <img src="../src/img/960px-Vinyl_record.svg.webp" alt="" 
-      class="absolute vinyl-back w-150 h-auto aspect-square mix-blend-darken opacity-20 left-1/2 top-3 -translate-x-1/2 md:left-200 md:-top-15">
-  </div>
-  <div class="absolute inset-0 -z-40 backdrop-blur-sm bg-primary/30"></div>
+<main class="min-h-screen w-full px-4 w-full py-4 overflow-hidden">
+  
 
   <!-- ОСНОВНОЙ КЛАСС -->
-  <section class="flex flex-col gap-5 items-center">
-    <!-- ГЕРОЙ -->
-    <div>
-      <h1 class="z-0 py-5 pt-10 font-header text-5xl text-white text-[clamp(2rem,5vw,3rem)] drop-shadow-[5px_5px_10px_rgba(0,0,0,0.3)]">
-      Твой звонок,
-      <span class="relative z-0 mx-2 inline-block before:absolute before:right-0 before:bottom-[-28%] before:left-[-2.5%] before:-z-10 before:h-[120%] before:w-[105%] before:rounded-2xl before:bg-linear-to-r before:from-blue-400 before:to-cyan-400">твой выбор</span>
-      !
-      </h1>
-      <p class="text-white/50 text-sm max-w-125">Выбери один из четырёх треков — победитель голосования зазвучит на переменах. Музыка играет дважды в неделю: во вторник и четверг.</p>
+  <section class="flex flex-col gap-5 items-center w-full">
+    <!-- ФОН -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none -z-50">
+      <img src="../src/img/960px-Vinyl_record.svg.webp" alt="" 
+        class="absolute vinyl-back w-150 h-auto aspect-square mix-blend-darken opacity-20 left-1/2 top-3 -translate-x-1/2 md:left-200 md:-top-15">
     </div>
+    <div class="absolute inset-0 -z-40 backdrop-blur-sm bg-primary/30"></div>
+    <!-- ГЕРОЙ -->
+<div class="flex flex-col items-center justify-center min-h-[40vh] px-4">
+  <h1 class="z-0 py-5 pt-10 font-header text-5xl text-white text-[clamp(2rem,5vw,5rem)] drop-shadow-[5px_5px_10px_rgba(0,0,0,0.3)] text-center">
+    Твой звонок,
+    <span class="relative z-0 mx-2 inline-block before:absolute before:right-0 before:bottom-[-28%] before:left-[-2.5%] before:-z-10 before:h-[120%] before:w-[105%] before:rounded-2xl before:bg-linear-to-r before:from-blue-400 before:to-cyan-400">
+      твой выбор
+    </span>
+  </h1>
+  
+  <p class="mt-4 text-white/50 text-base sm:text-lg md:text-xl max-w-2xl text-center font-sans font-light leading-relaxed">
+    Выбери один из четырёх треков — победитель голосования зазвучит на переменах. Музыка играет дважды в неделю: во вторник и четверг.
+  </p>
+</div>
     
     <!-- МЕЙН -->
     <div class="flex flex-col gap-6 w-full mt-6 max-w-4xl mx-auto">
@@ -126,45 +131,73 @@
         <p class="text-white mt-2">Всего голосов: <span class="text-blue-400">10</span></p>
       </div>
     </div>
-    <h2 class="w-full text-left text-3xl text-white font-header">Лента новостей</h2>
     <!-- НОВОСТИ -->
-    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 auto-rows-fr">
-      <li class="flex flex-col w-full h-full bg-secondary rounded-lg">
-        <div class="flex items-center justify-center bg-linear-to-br from-amber-600 to-red-400 text-5xl w-full h-3/5 rounded-t-lg border-2 border-white/20"><span class="drop-shadow-[0_0_20px_black]">🎶</span></div>
-        <div class="flex flex-col flex-1 px-2 py-2 h-full">
-          <p class="w-full truncate text-white font-intern font-semibold">Звонок теперь на сайте!</p>
-          <p class="w-full text-white/80 text-sm self-start truncate">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos, cupiditate?</p>
-          <p class="w-full truncate mt-auto text-white/50 text-xs">Администрация <span class="text-white/20">•</span> 12 часов назад</p>
-        </div>
-      </li>
+    <div class="w-fit ">
+      <h2 class="w-full mb-3 text-left text-3xl text-white font-header">Лента новостей</h2>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 auto-rows-fr">
+        <li class="flex flex-col w-full h-full bg-secondary rounded-lg">
+          <div class="flex items-center justify-center bg-linear-to-br from-amber-600 to-red-400 text-5xl w-full h-3/5 rounded-t-lg border-2 border-white/20"><span class="drop-shadow-[0_0_20px_black]">🎶</span></div>
+          <div class="flex flex-col flex-1 px-2 py-2 h-full">
+            <p class="w-full truncate text-white font-intern font-semibold">Звонок теперь на сайте!</p>
+            <p class="w-full text-white/80 text-sm self-start truncate">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos, cupiditate?</p>
+            <p class="w-full truncate mt-auto text-white/50 text-xs">Администрация <span class="text-white/20">•</span> 12 часов назад</p>
+          </div>
+        </li>
 
-      <li class="flex flex-col w-full h-full bg-secondary rounded-lg p-4 gap-3 border border-white/5 hover:border-white/10 transition-all duration-300">
-        <!-- Заголовок -->
-        <p class="text-white font-intern font-semibold text-sm sm:text-base tracking-wide">
-          Как вам удобней?
-        </p>
-        
-        <!-- Список опций -->
-        <ul class="flex flex-col flex-1 gap-1.5">
-          <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
-            <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
-            В телеграм
-          </li>
-          <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
-            <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
-            В вк
-          </li>
-          <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
-            <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
-            На сайте
-          </li>
-          <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
-            <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
-            На сайте
-          </li>
-        </ul>
-      </li>
-    </ul>
+        <li class="flex flex-col w-full h-full bg-secondary rounded-lg p-4 gap-3 border border-white/5 hover:border-white/10 transition-all duration-300">
+          <!-- Заголовок -->
+          <p class="text-white font-intern font-semibold text-sm sm:text-base tracking-wide">
+            Как вам удобней?
+          </p>
+          
+          <!-- Список опций -->
+          <ul class="flex flex-col flex-1 gap-1.5">
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              В телеграм
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              В вк
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              На сайте
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              На сайте
+            </li>
+          </ul>
+        </li>
+        <li class="flex flex-col w-full h-full bg-secondary rounded-lg p-4 gap-3 border border-white/5 hover:border-white/10 transition-all duration-300">
+          <!-- Заголовок -->
+          <p class="text-white font-intern font-semibold text-sm sm:text-base tracking-wide">
+            Как вам удобней?
+          </p>
+          
+          <!-- Список опций -->
+          <ul class="flex flex-col flex-1 gap-1.5">
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              В телеграм
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              В вк
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              На сайте
+            </li>
+            <li class="flex items-center px-3 py-2 w-full h-1/3 border-2 border-white/10 rounded-lg text-white/80 text-sm sm:text-base hover:border-blue-400/50 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer group">
+              <span class="w-2 h-2 rounded-full bg-blue-400/60 mr-3 group-hover:bg-blue-400 group-hover:shadow-glow transition-all"></span>
+              На сайте
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </section>
   <script src="../src/js/search.js"></script>
 </main>
