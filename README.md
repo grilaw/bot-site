@@ -6,7 +6,7 @@
 
 ### 1. Клонировать репозиторий
 ```bash
-git clone https://github.com/username/repo.git
+git clone https://github.com/grilaw/bot-site
 cd repo
 ```
 
