@@ -1,11 +1,11 @@
 {
-  "index.html": {
+  "src/main.jsx": {
     "file": "assets/index.js",
-    "name": "index",
-    "src": "index.html",
+    "name": "main",
+    "src": "src/main.jsx",
     "isEntry": true,
     "css": [
-      "assets/index.css"
+      "assets/main.css"
     ]
   }
 }

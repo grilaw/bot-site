@@ -1,4 +1,5 @@
 import random
+import logging
 
 from django.db.models import Count
 
@@ -8,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from songqueue.models import Vote, SongPoll, ReqSongs
+
+logger = logging.getLogger(__name__)
 
 # Перетащи сюда все апи херни дебик >:(
 
@@ -23,9 +26,48 @@ def votes(poll):
 
     return votes_dict
 
+@api_view(["GET"])
+def get_queue(request):
+    queue = list(ReqSongs.objects.values())
+    return Response(queue)
+
+@api_view(['GET'])
+def get_proposed(request):
+
+    poll = SongPoll.objects.filter(active=True).order_by('-id').first()
+    if not poll:
+        return Response({
+            "songs": []})
+
+    songs = list(poll.songs.values('id', 'title', 'author', 'duration', 'cover', 'trackid', 'album'))
+    return Response({
+        "songs": songs,
+    })
+
+@api_view(['GET'])
+def get_last_poll(request):
+    
+    last_poll = SongPoll.objects.filter(active=False).order_by('-id').first()
+
+    if not last_poll:
+        return Response({
+            "status": "error",
+            "message": "Нету голосований"
+        })
+
+    last_songs = list(last_poll.songs.values('id', 'title', 'author', 'duration', 'cover', 'trackid', 'album'))
+    last_winner = last_poll.winner_id
+    
+
+    return Response({
+        "last_songs": last_songs,
+        "last_winner": last_winner,
+    })
+
+
 @api_view(['POST'])
 def vote(request):
-
+    logger.info(f"Пользователь {request.user.username} получил голос.")
     if not request.user.is_authenticated:
         return Response(status=401)
     
@@ -62,25 +104,24 @@ def vote(request):
 
 @api_view(['GET'])
 def get_votes(request):
-
-    try:
-        Vote.objects.get(user=request.user)
-    except:
-        return Response(status=409)
-
-    if not request.user.is_authenticated:
-        return Response(status=401)
+    logger.info(f"get_votes: user={request.user}, auth={request.user.is_authenticated}")
 
     poll = SongPoll.objects.filter(active=True).last()
     if poll is None:
-        return Response({
-            'status': 'error',
-            'message': 'Нет активного опроса'
-        }, status=status.HTTP_404_NOT_FOUND)
-    
-    votes_dict = votes(poll)
+        return Response(
+            {'status': 'error', 'message': 'Нет активного опроса'},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
-    return Response({'votes': votes_dict}, status=200)
+    user_vote = (
+        Vote.objects
+        .filter(poll=poll, user=request.user)
+        .values_list('song_id', flat=True)
+        .first()
+        )
+
+    votes_dict = votes(poll)
+    return Response({'votes': votes_dict, 'user_vote': user_vote}, status=200)
 
 @api_view(['POST'])
 @permission_classes([IsAdminUser])

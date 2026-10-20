@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load django_vite %}
 <!doctype html>
 <html lang="ru">
   <head>
@@ -19,20 +19,23 @@
       href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap"
       rel="stylesheet"
     />
+
     <title>SchoolDJ</title>
+    {% vite_hmr_client %} {% vite_react_refresh %}
   </head>
   <body>
+    <script>
+      window.CURRENT_USER = {% if user.is_authenticated %}
+        {
+          username: "{{ user.username|escapejs }}",
+          avatar: "{{ user.profile.avatar.url|escapejs }}"
+        }
+      {% else %}
+        null
+      {% endif %};
+    </script>
     <div id="root"></div>
 
-    <script
-      type="module"
-      crossorigin
-      src="/static/frontend/assets/index.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      crossorigin
-      href="/static/frontend/assets/index.css"
-    />
+    {% vite_asset 'src/main.jsx' %}
   </body>
 </html>

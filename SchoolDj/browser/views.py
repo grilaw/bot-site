@@ -7,7 +7,6 @@ from songqueue.models import SongPoll, Vote
 # Create your views here.
 
 def index(request):
-    # Renders the compiled index.html inside static/frontend
     return render(request, 'index.html') 
 
 # def index(request):
@@ -50,6 +49,3 @@ def index(request):
 #         song.song_class = song_class
 
 #     return render(request, 'browser/index.html', {'songs': songs, 'style': 'browser/css/index.css'})
-
-def about(request):
-    return render(request, 'browser/about.html')

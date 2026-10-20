@@ -26,7 +26,7 @@ SECRET_KEY = 'x*oPv{*QiaxMUe,F|a3Hp==VoT?n:m;9!1RijFV([ekil9#.bxDAv'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']  # Для разработки разрешаем все хосты
 
 
 # Application definition
@@ -39,29 +39,33 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'browser',
     'songqueue',
     'dashboard',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.headless',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
     'allauth_ui',
     'slippers',
     'widget_tweaks',
-    'search.apps.SearchConfig'
+    'search.apps.SearchConfig',
+    'django_vite'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'SchoolDj.urls'
@@ -84,6 +88,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SchoolDj.wsgi.application'
 
+# Разрешить вашему фронтенду (порт 5173) отправлять запросы
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+# Разрешить передачу cookie (необходимо для сессии)
+CORS_ALLOW_CREDENTIALS = True
+
+# Доверенные источники CSRF
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = [
+    *default_headers,
+    "x-session-token",
+    "x-email-verification-key",
+    "x-password-reset-key",
+]
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -119,6 +146,13 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# settings.py (только для dev!)
+SESSION_COOKIE_SAMESITE = None  # или "Lax", если не помогает
+SESSION_COOKIE_SECURE = False   # для http
+CSRF_COOKIE_SAMESITE = None
+
+HEADLESS_ADAPTER = "SchoolDj.adapters.CustomHeadlessAdapter"
+
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
@@ -132,32 +166,6 @@ USE_TZ = True
 
 SITE_ID = 1
 
-# CORS настройки
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [f'https://{host}' for host in ALLOWED_HOSTS]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ['GET']
-
-# CSP (Content Security Policy)
-CSP_DEFAULT_SRC = ("'none'",)
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'")  # Уберите unsafe-inline в production
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
-CSP_IMG_SRC = ("'self'", "data:", "https:")
-CSP_CONNECT_SRC = ("'self'",)
-CSP_FRAME_ANCESTORS = ("'none'",)
-CSP_FORM_ACTION = ("'self'",)
-
-# XSS Protection
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-
-# Другие заголовки
-X_FRAME_OPTIONS = 'DENY'
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
 
 # Базовые настройки allauth (можно скорректировать под себя)
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
@@ -166,8 +174,6 @@ ACCOUNT_MAX_EMAIL_ADDRESSES = 1
 LOGIN_REDIRECT_URL = '/'  # Куда идти после входа
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*']
 ACCOUNT_LOGIN_METHODS = {'email','username'}
-# ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = True
-# ACCOUNT_SIGNUP_FORM_CLASS = 'dashboard.forms.CustomSignupForm'
 
 SOCIALACCOUNT_PROVIDERS = {
     'yandex': {
@@ -185,6 +191,7 @@ SOCIALACCOUNT_PROVIDERS = {
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'  # URL для доступа к файлам в браузере
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Абсолютный путь на сервере
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -225,6 +232,17 @@ LOGGING = {
             'propagate': False,  # не передавать в root логгер
         },
     },
+}
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": DEBUG,
+        "manifest_path": BASE_DIR / "static" / "frontend" / ".vite" / "manifest.json",
+        # Должен совпадать с base "/static/frontend/" в school-pgs/vite.config.js
+        "static_url_prefix": "frontend",
+        "dev_server_host": "localhost",
+        "dev_server_port": 5173
+    }
 }
 
 YANDEX_MUSIC_TOKEN = 'y0_AgAAAABhUjJfAAG8XgAAAADeacaIo2UgqfdMTwqAsy23aLn96r2Yx6M'
